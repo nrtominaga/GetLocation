@@ -9,5 +9,7 @@
 import UIKit
 
 class GetLocationViewController: UIViewController {
-    
+    override func loadView() {
+        view = GetLocationView()
+    }
 }
