@@ -11,6 +11,8 @@ import CoreLocation
 
 class GetLocationViewController: UIViewController {
     
+    let locationManager: CLLocationManager = CLLocationManager()
+    
     var getLocationView: GetLocationView {
         return view as! GetLocationView
     }
@@ -22,20 +24,63 @@ class GetLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getLocationView.getLocationButton.addTarget(self, action: #selector(getLocationButtonPressed), for: .touchUpInside)
+        checkLocationServices()
     }
     
     @objc func getLocationButtonPressed() {
-        print("hi")
+        checkLocationAuthorization(calledByButtonPressed: true)
+    }
+    
+    func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+    
+    func checkLocationServices() {
+        if CLLocationManager.locationServicesEnabled() {
+            setupLocationManager()
+            checkLocationAuthorization(calledByButtonPressed: false)
+        }
+        else {
+            // Show alert that location services disabled
+        }
+    }
+    
+    func checkLocationAuthorization(calledByButtonPressed: Bool) {
+        switch CLLocationManager.authorizationStatus() {
+        case .authorizedWhenInUse:
+            if calledByButtonPressed {
+                locationManager.requestLocation()
+            }
+        case .authorizedAlways:
+            break
+        case .denied:
+            // show alert on how to turn on location services
+            break
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            // show alert that restrictions are placed
+            break
+        @unknown default:
+            break
+        }
     }
 }
 
 extension GetLocationViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
+        guard let location: CLLocation = locations.last else { return }
+        print(location.coordinate.latitude)
+        print(location.coordinate.longitude)
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        
+        checkLocationAuthorization(calledByButtonPressed: false)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
     }
 }
