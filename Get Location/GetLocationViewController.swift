@@ -72,8 +72,7 @@ extension GetLocationViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location: CLLocation = locations.last else { return }
-        print(location.coordinate.latitude)
-        print(location.coordinate.longitude)
+        getLocationView.displayLocation(at: "\(location.coordinate.latitude), \(location.coordinate.longitude)")
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {

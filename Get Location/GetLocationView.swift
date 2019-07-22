@@ -11,12 +11,16 @@ import UIKit
 class GetLocationView: UIView {
     
     let getLocationButton: UIButton = UIButton(type: .system)
+    let locationLabel: UILabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor.white
         getLocationButton.setTitle("Get Location", for: .normal)
         addSubview(getLocationButton)
+        locationLabel.textAlignment = .center
+        locationLabel.isHidden = true
+        addSubview(locationLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -24,10 +28,16 @@ class GetLocationView: UIView {
     }
     
     override func layoutSubviews() {
-        let buttonWidthPercentage: CGFloat = 0.5
-        let buttonHeightPercentage: CGFloat = 0.1
-        let buttonWidth: CGFloat = buttonWidthPercentage * bounds.width
-        let buttonHeight: CGFloat = buttonHeightPercentage * bounds.height
-        getLocationButton.frame = CGRect(x: (bounds.width - buttonWidth)/2, y: (bounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
+        let buttonAndLabelWidthPercentage: CGFloat = 0.5
+        let buttonAndLabelHeightPercentage: CGFloat = 0.1
+        let buttonAndLabelWidth: CGFloat = buttonAndLabelWidthPercentage * bounds.width
+        let buttonAndLabelHeight: CGFloat = buttonAndLabelHeightPercentage * bounds.height
+        getLocationButton.frame = CGRect(x: (bounds.width - buttonAndLabelWidth)/2, y: (bounds.height - buttonAndLabelHeight)/2, width: buttonAndLabelWidth, height: buttonAndLabelHeight)
+        locationLabel.frame = CGRect(x: (bounds.width - buttonAndLabelWidth)/2, y: (bounds.height - buttonAndLabelHeight)/2 + buttonAndLabelHeight, width: buttonAndLabelWidth, height: buttonAndLabelHeight)
+    }
+    
+    func displayLocation(at location: String) {
+        locationLabel.isHidden = false
+        locationLabel.text = location
     }
 }
