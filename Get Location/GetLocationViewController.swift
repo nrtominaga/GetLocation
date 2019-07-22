@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class GetLocationViewController: UIViewController {
     
@@ -19,10 +20,22 @@ class GetLocationViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         getLocationView.getLocationButton.addTarget(self, action: #selector(getLocationButtonPressed), for: .touchUpInside)
     }
     
     @objc func getLocationButtonPressed() {
         print("hi")
+    }
+}
+
+extension GetLocationViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        
     }
 }
