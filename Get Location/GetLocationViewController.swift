@@ -45,11 +45,16 @@ class GetLocationViewController: UIViewController {
             checkLocationAuthorization(calledByButtonPressed: false)
         }
         else {
-            let alert: UIAlertController = UIAlertController(title: "Location Services", message: "Please turn on location services", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (alertAction) in
-                alert.dismiss(animated: false, completion: nil)
-            }))
-            self.present(alert, animated: false, completion: nil)        }
+            createAlert(with: "Location Services", and: "Please turn on location services")
+        }
+    }
+    
+    func createAlert(with title: String, and message: String) {
+        let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (alertAction) in
+            alert.dismiss(animated: false, completion: nil)
+        }))
+        self.present(alert, animated: false, completion: nil)
     }
     
     func checkLocationAuthorization(calledByButtonPressed: Bool) {
@@ -61,13 +66,11 @@ class GetLocationViewController: UIViewController {
         case .authorizedAlways:
             break
         case .denied:
-            // show alert on how to turn on location services
-            break
+            createAlert(with: "Location Services", and: "Location Services is turned off for this application.")
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
-            // show alert that restrictions are placed
-            break
+            createAlert(with: "Location Services Restrictions", and: "Location Services is restricted e.g. Parental Restrictions")
         @unknown default:
             break
         }
