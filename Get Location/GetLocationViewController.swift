@@ -24,6 +24,9 @@ class GetLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getLocationView.getLocationButton.addTarget(self, action: #selector(getLocationButtonPressed), for: .touchUpInside)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         checkLocationServices()
     }
     
@@ -42,8 +45,11 @@ class GetLocationViewController: UIViewController {
             checkLocationAuthorization(calledByButtonPressed: false)
         }
         else {
-            // Show alert that location services disabled
-        }
+            let alert: UIAlertController = UIAlertController(title: "Location Services", message: "Please turn on location services", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (alertAction) in
+                alert.dismiss(animated: false, completion: nil)
+            }))
+            self.present(alert, animated: false, completion: nil)        }
     }
     
     func checkLocationAuthorization(calledByButtonPressed: Bool) {
