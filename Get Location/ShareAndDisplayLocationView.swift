@@ -18,6 +18,8 @@ class ShareAndDisplayLocationView: UIView {
         backgroundColor = .white
         locationLabel.textAlignment = .center
         addSubview(locationLabel)
+        shareLocationButton.setTitle("Share", for: .normal)
+        addSubview(shareLocationButton)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,6 +31,7 @@ class ShareAndDisplayLocationView: UIView {
         let labelWidth: CGFloat = labelWidthPercentage * bounds.width
         let labelHeight: CGFloat = bounds.height
         locationLabel.frame = CGRect(x: (bounds.width - labelWidth)/2, y: 0, width: labelWidth, height: labelHeight)
+        shareLocationButton.frame = CGRect(x: (bounds.width - labelWidth)/2 + labelWidth, y: 0, width: bounds.width - ((bounds.width - labelWidth)/2 + labelWidth), height: bounds.height)
     }
     
 }
