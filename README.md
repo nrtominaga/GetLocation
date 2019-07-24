@@ -1,2 +1,2 @@
 # GetLocation
-Get location from ios device
+Get and display user's location to user and give the ability to share.
