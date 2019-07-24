@@ -12,6 +12,7 @@ import CoreLocation
 class GetLocationViewController: UIViewController {
     
     let locationManager: CLLocationManager = CLLocationManager()
+    var locationString: String?
     
     var getLocationView: GetLocationView {
         return view as! GetLocationView
@@ -24,6 +25,7 @@ class GetLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getLocationView.getLocationButton.addTarget(self, action: #selector(getLocationButtonPressed), for: .touchUpInside)
+        getLocationView.shareAndDisplayLocationView.shareLocationButton.addTarget(self, action: #selector(shareLocationButtonPressed), for: .touchUpInside)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -32,6 +34,12 @@ class GetLocationViewController: UIViewController {
     
     @objc func getLocationButtonPressed() {
         checkLocationAuthorization(calledByButtonPressed: true)
+    }
+    
+    @objc func shareLocationButtonPressed() {
+        guard let locationString: String = locationString else { return }
+        let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [locationString], applicationActivities: nil)
+        present(activityViewController, animated: true, completion: nil)
     }
     
     func setupLocationManager() {
@@ -81,7 +89,8 @@ extension GetLocationViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location: CLLocation = locations.last else { return }
-        getLocationView.displayLocation(at: "\(location.coordinate.latitude), \(location.coordinate.longitude)")
+        locationString = "\(location.coordinate.latitude), \(location.coordinate.longitude)"
+        getLocationView.displayLocation(at: locationString!)
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
